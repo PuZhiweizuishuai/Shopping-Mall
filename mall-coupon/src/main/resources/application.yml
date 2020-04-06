@@ -1,15 +1,25 @@
-spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.147.132:3306/mall_coupon?useUnicode=true&characterEncoding=UTF-8
-    username: root
-    password: 123456
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://192.168.147.132:3306/mall_coupon?useUnicode=true&characterEncoding=UTF-8
+#    username: root
+#    password: 123456
+#  cloud:
+#    nacos:
+#      server-addr: 192.168.147.132:8848
+#  application:
+#    name: mall-coupon
+#
+#mybatis-plus:
+#  mapper-locations: classpath:/mapper/**/*.xml
+#  # 配置主键自增
+#  global-config:
+#    db-config:
+#      id-type: auto
+#server:
+#  port: 7000
 
-mybatis-plus:
-  mapper-locations: classpath:/mapper/**/*.xml
-  # 配置主键自增
-  global-config:
-    db-config:
-      id-type: auto
-server:
-  port: 7000
+#coupon:
+#  user:
+#    name: zhangsan
+#    age: 18

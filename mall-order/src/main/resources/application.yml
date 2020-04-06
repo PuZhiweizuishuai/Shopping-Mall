@@ -4,7 +4,11 @@ spring:
     url: jdbc:mysql://192.168.147.132:3306/mall_order?useUnicode=true&characterEncoding=UTF-8
     username: root
     password: 123456
-
+  cloud:
+    nacos:
+      server-addr: 192.168.147.132:8848
+  application:
+    name: mall-order
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   # \u914D\u7F6E\u4E3B\u952E\u81EA\u589E
@@ -13,4 +17,4 @@ mybatis-plus:
       id-type: auto
 
 server:
-  port: 9000
+  port: 9001

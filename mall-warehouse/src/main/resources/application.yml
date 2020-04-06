@@ -4,6 +4,11 @@ spring:
     url: jdbc:mysql://192.168.147.132:3306/mall_warehouse?useUnicode=true&characterEncoding=UTF-8
     username: root
     password: 123456
+  cloud:
+    nacos:
+      server-addr: 192.168.147.132:8848
+  application:
+    name: mall-warehouse
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
