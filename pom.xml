@@ -10,6 +10,10 @@
     <description>不挂高数商城聚合服务</description>
     <packaging>pom</packaging>
 
+    <properties>
+        <java.version>11</java.version>
+    </properties>
+
     <modules>
         <module>mall-coupon</module>
         <module>mall-member</module>
@@ -21,6 +25,7 @@
         https://gitee.com/renrenio/renren-fast
         -->
         <module>renren-fast</module>
+        <module>renren-generator</module>
+        <module>mall-common</module>
     </modules>
-
 </project>
