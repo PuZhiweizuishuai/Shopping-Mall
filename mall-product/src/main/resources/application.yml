@@ -7,7 +7,9 @@ spring:
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
-  # \u914D\u7F6E\u4E3B\u952E\u81EA\u589E
+  # 配置主键自增
   global-config:
     db-config:
       id-type: auto
+server:
+  port: 10000
