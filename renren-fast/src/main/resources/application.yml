@@ -7,7 +7,7 @@ server:
   port: 8080
   connection-timeout: 5000ms
   servlet:
-    context-path: /renren-fast
+    context-path: /mall-admin
 
 spring:
   # 环境 dev|test|prod
@@ -37,6 +37,11 @@ spring:
         min-idle: 5       # 连接池中的最小空闲连接
   mvc:
     throw-exception-if-no-handler-found: true
+  application:
+    name: mall-admin
+  cloud:
+    nacos:
+      server-addr: 192.168.147.132:8848
 #  resources:
 #    add-mappings: false
 

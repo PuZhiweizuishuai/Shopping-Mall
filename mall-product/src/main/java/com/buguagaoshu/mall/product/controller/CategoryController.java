@@ -1,14 +1,11 @@
 package com.buguagaoshu.mall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.buguagaoshu.mall.product.entity.CategoryEntity;
 import com.buguagaoshu.mall.product.service.CategoryService;
@@ -25,19 +22,23 @@ import com.buguagaoshu.common.utils.R;
  * @date 2020-04-06 13:07:09
  */
 @RestController
-@RequestMapping("product/category")
+@RequestMapping("/product/category")
 public class CategoryController {
+
+    private final CategoryService categoryService;
+
     @Autowired
-    private CategoryService categoryService;
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 
     /**
-     * 列表
+     * 查出所有分类以及子分类，并且以树形结构组装
      */
-    @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = categoryService.queryPage(params);
-
-        return R.ok().put("page", page);
+    @RequestMapping("/list/tree")
+    public R listWithTree(){
+        List<CategoryEntity> entities = categoryService.listWithTree();
+        return R.ok().put("data", entities);
     }
 
 
@@ -56,9 +57,11 @@ public class CategoryController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody CategoryEntity category){
-		categoryService.save(category);
+		if (categoryService.saveAndCheck(category)) {
+		    return R.ok();
+        }
 
-        return R.ok();
+        return R.error(400,"输入数据有误，请检查后再重新提交");
     }
 
     /**
@@ -74,10 +77,10 @@ public class CategoryController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] catIds){
-		categoryService.removeByIds(Arrays.asList(catIds));
-
+		// categoryService.removeByIds(Arrays.asList(catIds));
+        categoryService.removeMenuByIds(Arrays.asList(catIds));
         return R.ok();
     }
 

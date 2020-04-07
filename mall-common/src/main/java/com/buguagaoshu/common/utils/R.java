@@ -10,6 +10,7 @@ package com.buguagaoshu.common.utils;
 
 import org.apache.http.HttpStatus;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ public class R extends HashMap<String, Object> {
 	public R() {
 		put("code", 0);
 		put("msg", "success");
+		put("time", LocalDateTime.now());
 	}
 	
 	public static R error() {
@@ -57,6 +59,7 @@ public class R extends HashMap<String, Object> {
 		return new R();
 	}
 
+	@Override
 	public R put(String key, Object value) {
 		super.put(key, value);
 		return this;
