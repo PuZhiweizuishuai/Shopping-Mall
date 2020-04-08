@@ -1,6 +1,7 @@
 package com.buguagaoshu.mall.product.service.impl;
 
-import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.buguagaoshu.mall.product.cache.CategoryListCache;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -22,12 +23,19 @@ import com.buguagaoshu.mall.product.service.CategoryService;
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
 
+    private final CategoryListCache categoryListCache;
+
+    @Autowired
+    public CategoryServiceImpl(CategoryListCache categoryListCache) {
+        this.categoryListCache = categoryListCache;
+    }
+
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<CategoryEntity> page = this.page(
                 new Query<CategoryEntity>().getPage(params),
-                new QueryWrapper<CategoryEntity>()
+                new QueryWrapper<>()
         );
 
         return new PageUtils(page);
@@ -41,7 +49,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         List<CategoryEntity> level1Menus =
                 entities.stream().filter((categoryEntity -> categoryEntity.getParentCid() == 0))
                         .peek((menu) -> menu.setChildren(getChildren(menu, entities)))
-                        .sorted((menu1, menu2) -> (menu2.getSort() == null ? 0 : menu2.getSort()) - (menu1.getSort() == null ? 0 : menu1.getSort()))
+                        .sorted(Comparator.comparingInt(menu -> (menu.getSort() == null ? 0 : menu.getSort())))
                         .collect(Collectors.toList());
 
         return level1Menus;
@@ -52,6 +60,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         // TODO 检查删除的菜单是否被别的地方引用
         // 批量删除
         baseMapper.deleteBatchIds(asList);
+        // 更新缓存
+        categoryListCache.setMenusTree(listWithTree());
     }
 
     @Override
@@ -69,13 +79,14 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
             return false;
         }
         baseMapper.insert(category);
+        // 更新缓存
+        categoryListCache.setMenusTree(listWithTree());
         return true;
     }
 
 
     /**
      * 获取某一菜单的子菜单
-     * TODO 添加数据缓存
      */
     private List<CategoryEntity> getChildren(CategoryEntity root,
                                              List<CategoryEntity> all) {
@@ -84,7 +95,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                     // 查找子菜单
                     categoryEntity.setChildren(getChildren(categoryEntity, all));
                 })
-                .sorted((menu1, menu2) -> (menu2.getSort() == null ? 0 : menu2.getSort()) - (menu1.getSort() == null ? 0 : menu1.getSort()))
+                .sorted(Comparator.comparingInt(menu -> (menu.getSort() == null ? 0 : menu.getSort())))
                 .collect(Collectors.toList());
         return children;
     }
