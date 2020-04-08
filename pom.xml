@@ -23,6 +23,7 @@
         <module>mall-product</module>
         <module>mall-warehouse</module>
         <module>mall-gateway</module>
+        <module>mall-third-party</module>
         <!--
         renren-fast 后台管理
         https://gitee.com/renrenio/renren-fast

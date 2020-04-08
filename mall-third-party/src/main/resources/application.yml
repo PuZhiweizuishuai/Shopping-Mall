@@ -1,0 +1,16 @@
+spring:
+  cloud:
+    nacos:
+      server-addr: 192.168.147.132:8848
+
+server:
+  port: 13000
+
+
+#minio:
+#  server: http://192.168.147.132:9000
+#  accessKey: admin
+#  secretKey: admin
+#  bucketName: mall
+#  # 300 秒
+#  expiry: 300
