@@ -36,5 +36,13 @@ public interface CategoryService extends IService<CategoryEntity> {
      * @return 合法性
      * */
     boolean saveAndCheck(CategoryEntity category);
+
+
+    /**
+     * 查找当前 catId 的所属路径
+     * @param catId 分类ID
+     * @return 完整路径
+     * */
+    Long[] findCatelogPath(long catId);
 }
 
