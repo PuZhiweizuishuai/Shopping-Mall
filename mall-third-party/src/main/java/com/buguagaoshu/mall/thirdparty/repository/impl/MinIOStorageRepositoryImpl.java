@@ -7,6 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 /**
  * @author Pu Zhiwei {@literal puzhiweipuzhiwei@foxmail.com}
  * create          2020-04-08 21:29
@@ -27,10 +33,18 @@ public class MinIOStorageRepositoryImpl implements FileStorageRepository {
     }
 
     @Override
-    public String createUploadUrl(String objectName) {
+    public Map<String, String> createUploadUrl(String objectName) {
         try {
-            String url = minioClient.presignedPutObject(properties.getBucketName(), objectName, properties.getExpiry());
-            return url;
+            // 文件保存格式为 日期/UUID-文件名
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String name = UUID.randomUUID().toString();
+            String filename = "/" +  simpleDateFormat.format(new Date()) + "/" + name + "-" + objectName;
+
+            String url = minioClient.presignedPutObject(properties.getBucketName(), filename, properties.getExpiry());
+            HashMap<String, String> map = new HashMap<>(2);
+            map.put("url", url);
+            map.put("filename", filename);
+            return map;
         } catch(Exception e) {
             log.error("Error occurred:  {}", e.getMessage());
             return null;

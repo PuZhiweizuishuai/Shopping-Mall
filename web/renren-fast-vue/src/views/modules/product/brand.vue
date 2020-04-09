@@ -43,16 +43,24 @@
                        header-align="center"
                        align="center"
                        label="品牌logo地址">
+        <template slot-scope="scope">
+          <!-- <el-image style="width: 100px; height: 100px"
+                    :src="scope.row.logo"
+                    fit="cover"></el-image> -->
+                    <img :src="scope.row.logo" width="100px" height="auto">
+        </template>
       </el-table-column>
       <el-table-column prop="descript"
                        header-align="center"
                        align="center"
-                       label="介绍">
+                       label="介绍"
+                       width="500">
       </el-table-column>
       <el-table-column prop="showStatus"
                        header-align="center"
                        align="center"
-                       label="显示状态">
+                       label="显示状态"
+                       width="50">
         <template slot-scope="scope">
           <el-switch v-model="scope.row.showStatus"
                      active-color="#13ce66"
@@ -66,12 +74,14 @@
       <el-table-column prop="firstLetter"
                        header-align="center"
                        align="center"
-                       label="检索首字母">
+                       label="检索首字母"
+                       width="50">
       </el-table-column>
       <el-table-column prop="sort"
                        header-align="center"
                        align="center"
-                       label="排序">
+                       label="排序"
+                       width="50">
       </el-table-column>
       <el-table-column fixed="right"
                        header-align="center"
@@ -106,7 +116,7 @@
 <script>
 import AddOrUpdate from './brand-add-or-update'
 export default {
-  data() {
+  data () {
     return {
       dataForm: {
         key: ''
@@ -123,12 +133,12 @@ export default {
   components: {
     AddOrUpdate
   },
-  activated() {
+  activated () {
     this.getDataList()
   },
   methods: {
     // 获取数据列表
-    getDataList() {
+    getDataList () {
       this.dataListLoading = true
       this.$http({
         url: this.$http.adornUrl('/product/brand/list'),
@@ -150,29 +160,29 @@ export default {
       })
     },
     // 每页数
-    sizeChangeHandle(val) {
+    sizeChangeHandle (val) {
       this.pageSize = val
       this.pageIndex = 1
       this.getDataList()
     },
     // 当前页
-    currentChangeHandle(val) {
+    currentChangeHandle (val) {
       this.pageIndex = val
       this.getDataList()
     },
     // 多选
-    selectionChangeHandle(val) {
+    selectionChangeHandle (val) {
       this.dataListSelections = val
     },
     // 新增 / 修改
-    addOrUpdateHandle(id) {
+    addOrUpdateHandle (id) {
       this.addOrUpdateVisible = true
       this.$nextTick(() => {
         this.$refs.addOrUpdate.init(id)
       })
     },
     // 删除
-    deleteHandle(id) {
+    deleteHandle (id) {
       var ids = id ? [id] : this.dataListSelections.map(item => {
         return item.brandId
       })
@@ -202,17 +212,24 @@ export default {
       })
     },
     // 控制品牌是否显示
-    updateBrandShowStatus(data) {
+    updateBrandShowStatus (data) {
       const { brandId, showStatus } = data
       this.$http({
-        url: this.$http.adornUrl('/product/brand/update'),
+        url: this.$http.adornUrl('/product/brand/update/status'),
         method: 'POST',
         data: this.$http.adornData({ brandId, showStatus }, false)
       }).then(({ data }) => {
-        this.$message({
-          type: 'success',
-          message: '修改成功'
-        })
+        if (data.code === 0) {
+          this.$message({
+            type: 'success',
+            message: '修改成功'
+          })
+        } else {
+          this.$message({
+            type: 'error',
+            message: data.msg
+          })
+        }
       }).catch(({ data }) => {
         this.$message({
           type: 'error',

@@ -1,5 +1,7 @@
 package com.buguagaoshu.mall.thirdparty.repository;
 
+import java.util.Map;
+
 /**
  * @author Pu Zhiwei {@literal puzhiweipuzhiwei@foxmail.com}
  * create          2020-04-08 21:27
@@ -8,9 +10,10 @@ package com.buguagaoshu.mall.thirdparty.repository;
 public interface FileStorageRepository {
     /**
      * 生成客户端上传文件所需的URl
-     * @param objectName 文件要保存的名字
+     * @param objectName 文件名字
      * @return 上传文件所需要的 URL
      * */
-    String createUploadUrl(String objectName);
+    Map<String, String> createUploadUrl(String objectName);
+
 
 }

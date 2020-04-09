@@ -75,6 +75,7 @@ import {
   Loading,
   MessageBox,
   Message,
+  Image,
   Notification
 } from 'element-ui'
 
@@ -141,6 +142,7 @@ Vue.use(Header)
 Vue.use(Aside)
 Vue.use(Main)
 Vue.use(Footer)
+Vue.use(Image)
 
 Vue.use(Loading.directive)
 

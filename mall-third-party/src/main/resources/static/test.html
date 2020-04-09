@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="file" id="selector" multiple>
+<button onclick="upload()">Upload</button>
+
+<div id="status">No uploads</div>
+
+<script type="text/javascript">
+    var url = 'http://192.168.147.132:9000/mall/2f96cdedd02e2ffb.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20200409%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20200409T045009Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&X-Amz-Signature=4fa19b38b7044a67314f97d0d3fe6c11c7c472e96d56f02e825ca331c3042768';
+
+    // // `upload` iterates through all files selected and invokes a helper function called `retrieveNewURL`.
+    // function upload() {
+    //     // Get selected files from the input element.
+    //     var files = document.querySelector("#selector").files;
+    //
+    //     for (var i = 0; i < files.length; i++) {
+    //         fetch(`/oss/policy?filename=${files[i].name}`, {
+    //             method: 'GET', // or 'PUT'
+    //         }).then(res => res.json())
+    //             .catch(error => console.error('Error:', error))
+    //             .then(function (response) {
+    //                 url = response.data.url;
+    //                 files[i].name = response.data.filename;
+    //             });
+    //
+    //         fetch(url, {
+    //             method: 'PUT',
+    //             body: files[i]
+    //         }).then(() => {
+    //             // If multiple files are uploaded, append upload status on the next line.
+    //             document.querySelector('#status').innerHTML += `<br>Uploaded ${files[i].name}.`;
+    //         }).catch((e) => {
+    //             console.error(e);
+    //         });
+    //     }
+    // }
+    // `upload` iterates through all files selected and invokes a helper function called `retrieveNewURL`.
+    function upload() {
+        // Get selected files from the input element.
+        var files = document.querySelector("#selector").files;
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            // 从服务器获取一个URL
+            retrieveNewURL(file, (file, url) => {
+                // 上传文件到服务器
+                uploadFile(file, url);
+            });
+        }
+    }
+
+    // 发请求到Node.js server获取上传URL。
+    // `retrieveNewURL` accepts the name of the current file and invokes the `/presignedUrl` endpoint to
+    // generate a pre-signed URL for use in uploading that file:
+    function retrieveNewURL(file, cb) {
+        // fetch(`/oss/policy?name=${file.name}`).then((response) => {
+        //     response.text().then((url) => {
+        //         cb(file, url);
+        //     });
+        // }).catch((e) => {
+        //     console.error(e);
+        // });
+        fetch(`/oss/policy?filename=${file.name}`, {
+            method: 'GET', // or 'PUT'
+        }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(function (response) {
+                url = response.data.url;
+                file.name = response.data.filename;
+                cb(file, url)
+            });
+    }
+
+    // 使用Fetch API来上传文件到S3。
+    // ``uploadFile` accepts the current filename and the pre-signed URL. It then uses `Fetch API`
+    // to upload this file to S3 at `play.min.io:9000` using the URL:
+    function uploadFile(file, url) {
+        if (document.querySelector('#status').innerText === 'No uploads') {
+            document.querySelector('#status').innerHTML = '';
+        }
+        fetch(url, {
+            method: 'PUT',
+            body: file
+        }).then(() => {
+            // If multiple files are uploaded, append upload status on the next line.
+            document.querySelector('#status').innerHTML += `<br>Uploaded ${file.name}.`;
+        }).catch((e) => {
+            console.error(e);
+        });
+    }
+</script>
+</body>
+</html>
