@@ -53,4 +53,8 @@ npm install node-sass --sass_binary_site=https://npm.taobao.org/mirrors/node-sas
 npm run dev
 ```
 
+3.GitHub的 dependabot 会提交几个升级前端依赖的合并，在开发阶段不建议升级，亲测升级后会有版本兼容问题导致前端项目无法运行。目前我还没有找到合适的解决方案
+
+
 如有其它renren-fast-vue的问题，请参考renren-fast-vue文档
+

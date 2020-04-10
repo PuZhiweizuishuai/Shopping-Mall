@@ -10,12 +10,21 @@ spring:
             - Path=/api/product/**
           filters:
             - RewritePath=/api/(?<segment>/?.*), /$\{segment}
+
+        - id: member-route
+          uri: lb://mall-member
+          predicates:
+            - Path=/api/member/**
+          filters:
+            - RewritePath=/api/(?<segment>/?.*), /$\{segment}
+
         - id: third-party-route
           uri: lb://mall-third-party
           predicates:
             - Path=/api/thirdparty/**
           filters:
             - RewritePath=/api/thirdparty/(?<segment>/?.*), /$\{segment}
+
         - id: admin_route
           uri: lb://mall-admin
           # 有API前缀先默认路由到mall-admin

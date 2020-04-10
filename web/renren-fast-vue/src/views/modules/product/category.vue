@@ -48,7 +48,7 @@
                          @click="() => append(data)">
                 添加子节点
               </el-button>
-              <el-button v-if="data.children.length == 0"
+              <el-button v-if="node.level == 3"
                          type="text"
                          size="mini"
                          @click="() => remove(node, data)">
@@ -116,7 +116,7 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       category: {
         name: '',
@@ -143,7 +143,7 @@ export default {
     }
   },
   methods: {
-    getMenu() {
+    getMenu () {
       this.$http({
         url: this.$http.adornUrl('/product/category/list/tree'),
         method: 'GET'
@@ -151,7 +151,7 @@ export default {
         this.menus = data.data
       })
     },
-    append(data) {
+    append (data) {
       this.dialogVisible = true
       // 父菜单ID
       this.category.parentCid = data.catId
@@ -162,12 +162,10 @@ export default {
       this.category.icon = ''
       this.category.productUnit = ''
     },
-
-    remove(node, data) {
+    remove (node, data) {
       const parent = node.parent
       const children = parent.data.children || parent.data
       const index = children.findIndex(d => d.id === data.id)
-
       this.$confirm(`此操作将永久删除 【${data.name}】 分类, 是否继续?`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -197,8 +195,7 @@ export default {
         })
       })
     },
-
-    addCategory() {
+    addCategory () {
       if (this.category.name === '') {
         this.$message({
           type: 'info',
@@ -235,8 +232,7 @@ export default {
         })
       })
     },
-
-    editMenu(data) {
+    editMenu (data) {
       // 发送请求获取最新的数据
       this.$http({
         url: this.$http.adornUrl('/product/category/info/' + data.catId),
@@ -259,8 +255,7 @@ export default {
       })
       this.dialogEditVisible = true
     },
-
-    sendEditMenu() {
+    sendEditMenu () {
       const { catId, name, icon, productUnit } = this.category
       this.$http({
         url: this.$http.adornUrl('/product/category/update'),
@@ -279,18 +274,17 @@ export default {
         this.initCategory()
       })
     },
-    initCategory() {
+    initCategory () {
       this.category.name = ''
       this.category.parentCid = -1
       this.category.catLevel = -1
       this.category.showStatus = 1
       this.category.sort = 0
       this.category.catId = null
-
       this.category.icon = ''
       this.category.productUnit = ''
     },
-    allowDrop(draggingNode, dropNode, type) {
+    allowDrop (draggingNode, dropNode, type) {
       this.maxlevel = 0
       this.countNodeLevel(draggingNode.data)
       const deep = Math.abs(this.maxlevel - draggingNode.level) + 1
@@ -301,9 +295,9 @@ export default {
       }
     },
     // 统计当前节点被拖动的总层数
-    countNodeLevel(node) {
+    countNodeLevel (node) {
       if (node.childNodes != null && node.childNodes.length > 0) {
-        for (let i = 0;i < node.childNodes.length;i++) {
+        for (let i = 0; i < node.childNodes.length; i++) {
           if (node.childNodes[i].level > this.maxlevel) {
             this.maxlevel = node.childNodes[i].level
           }
@@ -312,7 +306,7 @@ export default {
       }
     },
     // 拖拽成功
-    handleDrop(draggingNode, dropNode, dropType, ev) {
+    handleDrop (draggingNode, dropNode, dropType, ev) {
       // 当前节点最新的父节点ID
       let pCid = 0
       let siblings = null
@@ -324,7 +318,7 @@ export default {
         siblings = dropNode.childNodes
       }
       // 当前拖拽节点的最新顺序
-      for (let i = 0;i < siblings.length;i++) {
+      for (let i = 0; i < siblings.length; i++) {
         if (siblings[i].data.catId === draggingNode.data.catId) {
           let catLevel = draggingNode.level
           if (siblings[i].level !== draggingNode.level) {
@@ -339,16 +333,16 @@ export default {
         }
       }
     },
-    updateChildNodeLevel(node) {
+    updateChildNodeLevel (node) {
       if (node.childNodes.length > 0) {
-        for (let i = 0;i < node.childNodes.length;i++) {
+        for (let i = 0; i < node.childNodes.length; i++) {
           const cNode = node.childNodes[i].data
           this.updateNode.push({ catId: cNode.catId, catLevel: node.childNodes[i].level })
           this.updateChildNodeLevel(node.childNodes[i])
         }
       }
     },
-    batchSave() {
+    batchSave () {
       if (this.updateNode === null || this.updateNode.length === 0) {
         this.$message({
           type: 'info',
@@ -371,7 +365,7 @@ export default {
         this.getMenu()
       })
     },
-    batchDelete() {
+    batchDelete () {
       const checkNodes = this.$refs.categoryMenuTree.getCheckedNodes()
       const catId = []
       let name = ''
@@ -382,7 +376,7 @@ export default {
         })
         return
       }
-      for (let i = 0;i < checkNodes.length;i++) {
+      for (let i = 0; i < checkNodes.length; i++) {
         catId.push(checkNodes[i].catId)
         name = name + checkNodes[i].name + ', '
       }
@@ -415,7 +409,7 @@ export default {
       })
     }
   },
-  created() {
+  created () {
     this.getMenu()
   }
 }

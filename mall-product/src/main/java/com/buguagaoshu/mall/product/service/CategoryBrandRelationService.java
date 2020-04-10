@@ -6,6 +6,7 @@ import com.buguagaoshu.mall.product.entity.BrandEntity;
 import com.buguagaoshu.mall.product.entity.CategoryBrandRelationEntity;
 import com.buguagaoshu.mall.product.entity.CategoryEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,5 +43,13 @@ public interface CategoryBrandRelationService extends IService<CategoryBrandRela
      * @param categoryEntity 分类
      * */
     void updateCatelogName(CategoryEntity categoryEntity);
+
+
+    /**
+     * 获取当前分类下关联的品牌
+     * @param catId 分类 ID
+     * @return 品牌列表
+     * */
+    List<BrandEntity> getBrandsByCatId(Long catId);
 }
 

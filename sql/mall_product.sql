@@ -26,6 +26,7 @@ CREATE TABLE `pms_attr`  (
   `attr_id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '属性id',
   `attr_name` char(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '属性名',
   `search_type` tinyint(0) NULL DEFAULT NULL COMMENT '是否需要检索[0-不需要，1-需要]',
+  `value_type` tinyint(0) NULL DEFAULT NULL COMMENT '值类型  [0 - 单选， 1 - 多选]',
   `icon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '属性图标',
   `value_select` char(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '可选值列表[用逗号分隔]',
   `attr_type` tinyint(0) NULL DEFAULT NULL COMMENT '属性类型[0-销售属性，1-基本属性，2-既是销售属性又是基本属性]',

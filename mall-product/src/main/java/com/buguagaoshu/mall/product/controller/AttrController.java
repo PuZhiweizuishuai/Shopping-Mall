@@ -14,7 +14,6 @@ import com.buguagaoshu.common.utils.PageUtils;
 import com.buguagaoshu.common.utils.R;
 
 
-
 /**
  * 商品属性
  *
@@ -34,11 +33,12 @@ public class AttrController {
     }
 
 
-    @GetMapping("base/list/{catelogId}")
+    @GetMapping("/{type}/list/{catelogId}")
     public R baseList(@PathVariable("catelogId") Long catelogId,
-            @RequestParam Map<String, Object> params){
+                      @RequestParam Map<String, Object> params,
+                      @PathVariable("type") String type) {
         //PageUtils page = attrService.queryPage(params);
-        PageUtils page = attrService.queryBasePage(catelogId, params);
+        PageUtils page = attrService.queryBasePage(catelogId, params, type);
         return R.ok().put("page", page);
     }
 
@@ -47,7 +47,7 @@ public class AttrController {
      * 列表
      */
     @GetMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = attrService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -58,8 +58,8 @@ public class AttrController {
      * 信息
      */
     @GetMapping("/info/{attrId}")
-    public R info(@PathVariable("attrId") Long attrId){
-		AttrResponseVo attr = attrService.getAttrResponseInfo(attrId);
+    public R info(@PathVariable("attrId") Long attrId) {
+        AttrResponseVo attr = attrService.getAttrResponseInfo(attrId);
 
         return R.ok().put("attr", attr);
     }
@@ -68,8 +68,8 @@ public class AttrController {
      * 保存
      */
     @PostMapping("/save")
-    public R save(@RequestBody AttrVo attr){
-		attrService.saveAttr(attr);
+    public R save(@RequestBody AttrVo attr) {
+        attrService.saveAttr(attr);
         return R.ok();
     }
 
@@ -77,8 +77,8 @@ public class AttrController {
      * 修改
      */
     @PostMapping("/update")
-    public R update(@RequestBody AttrResponseVo attr){
-		attrService.updateAttrResponseVo(attr);
+    public R update(@RequestBody AttrResponseVo attr) {
+        attrService.updateAttrResponseVo(attr);
 
         return R.ok();
     }
@@ -87,8 +87,8 @@ public class AttrController {
      * 删除
      */
     @DeleteMapping("/delete")
-    public R delete(@RequestBody Long[] attrIds){
-		attrService.removeByIds(Arrays.asList(attrIds));
+    public R delete(@RequestBody Long[] attrIds) {
+        attrService.removeByIds(Arrays.asList(attrIds));
 
         return R.ok();
     }

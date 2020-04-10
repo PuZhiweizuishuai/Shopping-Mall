@@ -5,9 +5,14 @@ import com.buguagaoshu.mall.product.dao.BrandDao;
 import com.buguagaoshu.mall.product.dao.CategoryDao;
 import com.buguagaoshu.mall.product.entity.BrandEntity;
 import com.buguagaoshu.mall.product.entity.CategoryEntity;
+import com.buguagaoshu.mall.product.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -29,10 +34,15 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
 
     private final CategoryDao categoryDao;
 
+    private final CategoryBrandRelationDao categoryBrandRelationDao;
+
+
     @Autowired
-    public CategoryBrandRelationServiceImpl(BrandDao brandDao, CategoryDao categoryDao) {
+    public CategoryBrandRelationServiceImpl(BrandDao brandDao, CategoryDao categoryDao, CategoryBrandRelationDao categoryBrandRelationDao) {
         this.brandDao = brandDao;
         this.categoryDao = categoryDao;
+        this.categoryBrandRelationDao = categoryBrandRelationDao;
+
     }
 
     @Override
@@ -75,6 +85,17 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
                 new UpdateWrapper<CategoryBrandRelationEntity>()
                 .eq("catelog_id", categoryEntity.getCatId())
         );
+    }
+
+    @Override
+    public List<BrandEntity> getBrandsByCatId(Long catId) {
+        List<CategoryBrandRelationEntity> catelogId = categoryBrandRelationDao.selectList(new QueryWrapper<CategoryBrandRelationEntity>().eq("catelog_id", catId));
+        List<BrandEntity> collect = catelogId.stream().map(item -> {
+            Long brandId = item.getBrandId();
+            BrandEntity byId = brandDao.selectById(brandId);
+            return byId;
+        }).collect(Collectors.toList());
+        return collect;
     }
 
 }

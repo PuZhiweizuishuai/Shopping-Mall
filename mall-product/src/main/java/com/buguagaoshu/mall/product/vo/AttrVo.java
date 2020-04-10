@@ -22,6 +22,12 @@ public class AttrVo {
      * 是否需要检索[0-不需要，1-需要]
      */
     private Integer searchType;
+
+    /**
+     * 值类型 [0 - 单选， 1 - 多选]
+     * */
+    private Integer valueType;
+
     /**
      * 属性图标
      */
