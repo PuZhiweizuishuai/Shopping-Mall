@@ -1,14 +1,12 @@
 package com.buguagaoshu.mall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.buguagaoshu.mall.product.entity.CategoryBrandRelationEntity;
 import com.buguagaoshu.mall.product.service.CategoryBrandRelationService;
@@ -27,13 +25,32 @@ import com.buguagaoshu.common.utils.R;
 @RestController
 @RequestMapping("product/categorybrandrelation")
 public class CategoryBrandRelationController {
+
+    private final CategoryBrandRelationService categoryBrandRelationService;
+
     @Autowired
-    private CategoryBrandRelationService categoryBrandRelationService;
+    public CategoryBrandRelationController(CategoryBrandRelationService categoryBrandRelationService) {
+        this.categoryBrandRelationService = categoryBrandRelationService;
+    }
+
+    /**
+     * 返回当前品牌所在分类列表
+     */
+    @GetMapping("/catelog/list")
+    public R catelogList(@RequestParam("brandId") Long brandId){
+        List<CategoryBrandRelationEntity> data =
+                categoryBrandRelationService.list(
+                        new QueryWrapper<CategoryBrandRelationEntity>().eq("brand_id",brandId)
+                );
+
+        return R.ok().put("data", data);
+    }
+
 
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = categoryBrandRelationService.queryPage(params);
 
@@ -54,9 +71,9 @@ public class CategoryBrandRelationController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public R save(@RequestBody CategoryBrandRelationEntity categoryBrandRelation){
-		categoryBrandRelationService.save(categoryBrandRelation);
+		categoryBrandRelationService.saveDetail(categoryBrandRelation);
 
         return R.ok();
     }

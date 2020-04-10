@@ -3,8 +3,11 @@ package com.buguagaoshu.mall.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.buguagaoshu.common.valid.AddGroup;
+import com.buguagaoshu.common.valid.UpdateGroup;
 import com.buguagaoshu.mall.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.buguagaoshu.mall.product.entity.AttrGroupEntity;
@@ -41,8 +44,6 @@ public class AttrGroupController {
     @GetMapping("/list/{catelogId}")
     public R list(@RequestParam Map<String, Object> params,
                   @PathVariable("catelogId") Long catelogId) {
-        // PageUtils page = attrGroupService.queryPage(params);
-
         PageUtils page = attrGroupService.queryPage(params, catelogId);
         return R.ok().put("page", page);
     }
@@ -63,7 +64,7 @@ public class AttrGroupController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody AttrGroupEntity attrGroup) {
+    public R save(@Validated(AddGroup.class) @RequestBody AttrGroupEntity attrGroup) {
         attrGroupService.save(attrGroup);
 
         return R.ok();
@@ -73,7 +74,7 @@ public class AttrGroupController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody AttrGroupEntity attrGroup) {
+    public R update(@Validated(UpdateGroup.class) @RequestBody AttrGroupEntity attrGroup) {
         attrGroupService.updateById(attrGroup);
 
         return R.ok();

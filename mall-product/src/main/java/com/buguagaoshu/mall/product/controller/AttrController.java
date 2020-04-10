@@ -3,12 +3,10 @@ package com.buguagaoshu.mall.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.buguagaoshu.mall.product.vo.AttrResponseVo;
+import com.buguagaoshu.mall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.buguagaoshu.mall.product.entity.AttrEntity;
 import com.buguagaoshu.mall.product.service.AttrService;
@@ -27,13 +25,28 @@ import com.buguagaoshu.common.utils.R;
 @RestController
 @RequestMapping("product/attr")
 public class AttrController {
+
+    private final AttrService attrService;
+
     @Autowired
-    private AttrService attrService;
+    public AttrController(AttrService attrService) {
+        this.attrService = attrService;
+    }
+
+
+    @GetMapping("base/list/{catelogId}")
+    public R baseList(@PathVariable("catelogId") Long catelogId,
+            @RequestParam Map<String, Object> params){
+        //PageUtils page = attrService.queryPage(params);
+        PageUtils page = attrService.queryBasePage(catelogId, params);
+        return R.ok().put("page", page);
+    }
+
 
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = attrService.queryPage(params);
 
@@ -44,9 +57,9 @@ public class AttrController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{attrId}")
+    @GetMapping("/info/{attrId}")
     public R info(@PathVariable("attrId") Long attrId){
-		AttrEntity attr = attrService.getById(attrId);
+		AttrResponseVo attr = attrService.getAttrResponseInfo(attrId);
 
         return R.ok().put("attr", attr);
     }
@@ -54,19 +67,18 @@ public class AttrController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
-    public R save(@RequestBody AttrEntity attr){
-		attrService.save(attr);
-
+    @PostMapping("/save")
+    public R save(@RequestBody AttrVo attr){
+		attrService.saveAttr(attr);
         return R.ok();
     }
 
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    public R update(@RequestBody AttrEntity attr){
-		attrService.updateById(attr);
+    @PostMapping("/update")
+    public R update(@RequestBody AttrResponseVo attr){
+		attrService.updateAttrResponseVo(attr);
 
         return R.ok();
     }
@@ -74,7 +86,7 @@ public class AttrController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] attrIds){
 		attrService.removeByIds(Arrays.asList(attrIds));
 

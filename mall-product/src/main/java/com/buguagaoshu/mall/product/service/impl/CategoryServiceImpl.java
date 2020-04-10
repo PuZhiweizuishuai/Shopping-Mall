@@ -1,6 +1,7 @@
 package com.buguagaoshu.mall.product.service.impl;
 
 import com.buguagaoshu.mall.product.cache.CategoryListCache;
+import com.buguagaoshu.mall.product.service.CategoryBrandRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +17,24 @@ import com.buguagaoshu.common.utils.Query;
 import com.buguagaoshu.mall.product.dao.CategoryDao;
 import com.buguagaoshu.mall.product.entity.CategoryEntity;
 import com.buguagaoshu.mall.product.service.CategoryService;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 
+/**
+ * @author puzhiwei
+ */
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
 
     private final CategoryListCache categoryListCache;
 
+    private final CategoryBrandRelationService categoryBrandRelationService;
+
     @Autowired
-    public CategoryServiceImpl(CategoryListCache categoryListCache) {
+    public CategoryServiceImpl(CategoryListCache categoryListCache, CategoryBrandRelationService categoryBrandRelationService) {
         this.categoryListCache = categoryListCache;
+        this.categoryBrandRelationService = categoryBrandRelationService;
     }
 
 
@@ -88,6 +97,16 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         List<Long> parentPath = findParentPath(catId, paths);
         Collections.reverse(parentPath);
         return parentPath.toArray(new Long[parentPath.size()]);
+    }
+
+    @Override
+    @Transactional
+    public void updateCascade(CategoryEntity category) {
+        this.updateById(category);
+        if (!StringUtils.isEmpty(category.getName())) {
+            categoryBrandRelationService.updateCatelogName(category);
+            // TODO 更新其它关联
+        }
     }
 
     private List<Long> findParentPath(Long catelogId,List<Long> paths){
