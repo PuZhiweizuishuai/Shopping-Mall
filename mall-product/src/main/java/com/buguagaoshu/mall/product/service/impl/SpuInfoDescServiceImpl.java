@@ -13,6 +13,9 @@ import com.buguagaoshu.mall.product.entity.SpuInfoDescEntity;
 import com.buguagaoshu.mall.product.service.SpuInfoDescService;
 
 
+/**
+ * @author puzhiwei
+ */
 @Service("spuInfoDescService")
 public class SpuInfoDescServiceImpl extends ServiceImpl<SpuInfoDescDao, SpuInfoDescEntity> implements SpuInfoDescService {
 
@@ -26,4 +29,8 @@ public class SpuInfoDescServiceImpl extends ServiceImpl<SpuInfoDescDao, SpuInfoD
         return new PageUtils(page);
     }
 
+    @Override
+    public void saveBaseSpuInfoDesc(SpuInfoDescEntity spuInfoDescEntity) {
+        this.baseMapper.insert(spuInfoDescEntity);
+    }
 }

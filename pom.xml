@@ -28,7 +28,7 @@
         renren-fast 后台管理
         https://gitee.com/renrenio/renren-fast
         -->
-        <module>renren-fast</module>
+        <module>mall-admin</module>
         <module>renren-generator</module>
         <module>mall-common</module>
     </modules>

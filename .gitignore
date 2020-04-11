@@ -6,15 +6,15 @@ target/
 **/mvn.cmd
 **/.mvn
 
-web/renren-fast-vue/.DS_Store
+web/mall-admin-vue/.DS_Store
 node_modules/
 dist/
-web/renren-fast-vue/npm-debug.log*
-web/renren-fast-vue/yarn-debug.log*
-web/renren-fast-vue/yarn-error.log*
-web/renren-fast-vue/test/unit/coverage/
-web/renren-fast-vue/test/e2e/reports/
-web/renren-fast-vue/selenium-debug.log
+web/mall-admin-vue/npm-debug.log*
+web/mall-admin-vue/yarn-debug.log*
+web/mall-admin-vue/yarn-error.log*
+web/mall-admin-vue/test/unit/coverage/
+web/mall-admin-vue/test/e2e/reports/
+web/mall-admin-vue/selenium-debug.log
 
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**

@@ -11,6 +11,7 @@ import com.buguagaoshu.mall.product.service.AttrAttrgroupRelationService;
 import com.buguagaoshu.mall.product.service.AttrService;
 import com.buguagaoshu.mall.product.service.CategoryService;
 import com.buguagaoshu.mall.product.vo.AttrGroupRelationVo;
+import com.buguagaoshu.mall.product.vo.AttrGroupWithAttrsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +49,12 @@ public class AttrGroupController {
         this.attrAttrgroupRelationService = attrAttrgroupRelationService;
     }
 
+    // /product/attrgroup/{catelogId}/withattr
+    @GetMapping("/{catelogId}/withattr")
+    public R getAttrGroupWithAttr(@PathVariable("catelogId") Long catelogId) {
+        List<AttrGroupWithAttrsVo> list = attrGroupService.getAttrGroupWithAttr(catelogId);
+        return R.ok().put("data", list);
+    }
 
 
     /**
@@ -59,7 +66,6 @@ public class AttrGroupController {
         return R.ok().put("data", attrEntityList);
     }
 
-    // /product/attrgroup/{attrgroupId}/noattr/relation
     /**
      * 没有关联的属性
      * */

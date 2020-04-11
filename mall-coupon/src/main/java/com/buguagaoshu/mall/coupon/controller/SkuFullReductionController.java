@@ -3,12 +3,9 @@ package com.buguagaoshu.mall.coupon.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.buguagaoshu.common.to.SkuReductionTo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.buguagaoshu.mall.coupon.entity.SkuFullReductionEntity;
 import com.buguagaoshu.mall.coupon.service.SkuFullReductionService;
@@ -27,8 +24,20 @@ import com.buguagaoshu.common.utils.R;
 @RestController
 @RequestMapping("coupon/skufullreduction")
 public class SkuFullReductionController {
+
+    private final SkuFullReductionService skuFullReductionService;
+
     @Autowired
-    private SkuFullReductionService skuFullReductionService;
+    public SkuFullReductionController(SkuFullReductionService skuFullReductionService) {
+        this.skuFullReductionService = skuFullReductionService;
+    }
+
+
+    @PostMapping("/saveinfo")
+    public R saveInfo(@RequestBody SkuReductionTo reductionTo){
+        skuFullReductionService.saveSkuReduction(reductionTo);
+        return R.ok();
+    }
 
     /**
      * 列表
