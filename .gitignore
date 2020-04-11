@@ -6,15 +6,9 @@ target/
 **/mvn.cmd
 **/.mvn
 
-web/mall-admin-vue/.DS_Store
 node_modules/
 dist/
-web/mall-admin-vue/npm-debug.log*
-web/mall-admin-vue/yarn-debug.log*
-web/mall-admin-vue/yarn-error.log*
-web/mall-admin-vue/test/unit/coverage/
-web/mall-admin-vue/test/e2e/reports/
-web/mall-admin-vue/selenium-debug.log
+
 
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
