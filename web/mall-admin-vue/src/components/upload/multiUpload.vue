@@ -7,6 +7,7 @@
       :file-list="fileList"
       :on-remove="handleRemove"
       :on-success="handleUploadSuccess"
+      :on-preview="handlePreview"
       :limit="maxCount"
       :http-request="uploadImg"
       :on-exceed="handleExceed"
@@ -19,8 +20,6 @@
   </div>
 </template>
 <script>
-import { policy } from './policy'
-import { getUUID } from '@/utils'
 export default {
   name: 'multiUpload',
   props: {
