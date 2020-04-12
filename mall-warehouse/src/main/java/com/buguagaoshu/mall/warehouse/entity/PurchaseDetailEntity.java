@@ -46,8 +46,23 @@ public class PurchaseDetailEntity implements Serializable {
 	 */
 	private Long wareId;
 	/**
-	 * 状态[0新建，1已分配，2正在采购，3已完成，4采购失败]
+	 * 状态[0新建，1已分配，2正在采购，3已完成，4采购失败, 5,部分成功。部分失败]
 	 */
 	private Integer status;
 
+	/**
+	 * 失败原因
+	 * */
+	private String reason;
+
+	/**
+	 * 没有买到的数量
+	 * */
+	private Integer skuErrorNum;
+
+
+	/**
+	 * 成功买到的数量
+	 * */
+	private Integer skuByeNum;
 }

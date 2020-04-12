@@ -47,9 +47,12 @@ CREATE TABLE `wms_purchase_detail`  (
   `sku_num` int(0) NULL DEFAULT NULL COMMENT '采购数量',
   `sku_price` decimal(18, 4) NULL DEFAULT NULL COMMENT '采购金额',
   `ware_id` bigint(0) NULL DEFAULT NULL COMMENT '仓库id',
-  `status` int(0) NULL DEFAULT NULL COMMENT '状态[0新建，1已分配，2正在采购，3已完成，4采购失败]',
+  `status` int(0) NULL DEFAULT NULL COMMENT '状态[0新建，1已分配，2正在采购，3已完成，4采购失败, 5,部分成功。部分失败]',
+  `reason` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '采购失败的原因',
+  `sku_error_num` int(0) NULL DEFAULT NULL COMMENT '没有买到的数量',
+  `sku_bye_num` int(0) NULL DEFAULT NULL COMMENT '实际购买到的数量',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for wms_ware_info

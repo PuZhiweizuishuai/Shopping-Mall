@@ -4,11 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.buguagaoshu.mall.warehouse.entity.WareInfoEntity;
 import com.buguagaoshu.mall.warehouse.service.WareInfoService;
@@ -25,15 +21,20 @@ import com.buguagaoshu.common.utils.R;
  * @date 2020-04-06 20:03:29
  */
 @RestController
-@RequestMapping("warehouse/wareinfo")
+@RequestMapping("ware/wareinfo")
 public class WareInfoController {
+
+    private final WareInfoService wareInfoService;
+
     @Autowired
-    private WareInfoService wareInfoService;
+    public WareInfoController(WareInfoService wareInfoService) {
+        this.wareInfoService = wareInfoService;
+    }
 
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = wareInfoService.queryPage(params);
 
@@ -44,7 +45,7 @@ public class WareInfoController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
 		WareInfoEntity wareInfo = wareInfoService.getById(id);
 
@@ -54,7 +55,7 @@ public class WareInfoController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public R save(@RequestBody WareInfoEntity wareInfo){
 		wareInfoService.save(wareInfo);
 
@@ -64,7 +65,7 @@ public class WareInfoController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PostMapping("/update")
     public R update(@RequestBody WareInfoEntity wareInfo){
 		wareInfoService.updateById(wareInfo);
 
@@ -74,8 +75,7 @@ public class WareInfoController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    //@RequiresPermissions("warehouse:wareinfo:delete")
+    @PostMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		wareInfoService.removeByIds(Arrays.asList(ids));
 

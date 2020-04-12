@@ -13,4 +13,8 @@ public class StringUtils {
         Date now = new Date();
         return simpleDateFormat.format(now);
     }
+
+    public static void main(String[] args) {
+        System.out.println(getNowTime());
+    }
 }

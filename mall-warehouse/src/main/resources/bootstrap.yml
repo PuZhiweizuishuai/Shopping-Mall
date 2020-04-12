@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: mall-warehouse
+  cloud:
+    nacos:
+      config:
+        server-addr: 192.168.147.132:8848
+        # \u4F7F\u7528 YML \u683C\u5F0F\u7684\u914D\u7F6E
+        file-extension: yml
+        # \u8BBE\u7F6E\u4F7F\u7528\u7684\u547D\u540D\u7A7A\u95F4
+        namespace: a0a4601a-4402-4e7d-90f3-50244cf96b69
+        # \u8BBE\u7F6E\u5206\u7EC4
+        group: dev

@@ -1,14 +1,16 @@
 package com.buguagaoshu.mall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.buguagaoshu.mall.product.entity.ProductAttrValueEntity;
+import com.buguagaoshu.mall.product.service.ProductAttrValueService;
 import com.buguagaoshu.mall.product.vo.AttrResponseVo;
 import com.buguagaoshu.mall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.buguagaoshu.mall.product.entity.AttrEntity;
 import com.buguagaoshu.mall.product.service.AttrService;
 import com.buguagaoshu.common.utils.PageUtils;
 import com.buguagaoshu.common.utils.R;
@@ -27,11 +29,34 @@ public class AttrController {
 
     private final AttrService attrService;
 
+    private final ProductAttrValueService productAttrValueService;
+
     @Autowired
-    public AttrController(AttrService attrService) {
+    public AttrController(AttrService attrService, ProductAttrValueService productAttrValueService) {
         this.attrService = attrService;
+        this.productAttrValueService = productAttrValueService;
     }
 
+
+    /**
+     * 查出商品规格
+     */
+    @GetMapping("/base/listforspu/{spuId}")
+    public R baseAttrListForSpu(@PathVariable("spuId") Long spuId) {
+
+        List<ProductAttrValueEntity> entities = productAttrValueService.baseAttrListForSpu(spuId);
+        return R.ok().put("data", entities);
+    }
+
+    /**
+     * 更新商品规格信息
+     */
+    @PostMapping("/update/{spuId}")
+    public R updateSpuAttr(@PathVariable("spuId") Long spuId,
+                           @RequestBody List<ProductAttrValueEntity> entities) {
+        productAttrValueService.updateSpuAttr(spuId, entities);
+        return R.ok();
+    }
 
     @GetMapping("/{type}/list/{catelogId}")
     public R baseList(@PathVariable("catelogId") Long catelogId,

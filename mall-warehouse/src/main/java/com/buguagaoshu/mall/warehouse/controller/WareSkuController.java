@@ -4,11 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.buguagaoshu.mall.warehouse.entity.WareSkuEntity;
 import com.buguagaoshu.mall.warehouse.service.WareSkuService;
@@ -25,15 +21,21 @@ import com.buguagaoshu.common.utils.R;
  * @date 2020-04-06 20:03:29
  */
 @RestController
-@RequestMapping("warehouse/waresku")
+@RequestMapping("ware/waresku")
 public class WareSkuController {
+
+    private final WareSkuService wareSkuService;
+
     @Autowired
-    private WareSkuService wareSkuService;
+    public WareSkuController(WareSkuService wareSkuService) {
+        this.wareSkuService = wareSkuService;
+    }
+
 
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = wareSkuService.queryPage(params);
 
@@ -44,7 +46,7 @@ public class WareSkuController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
 		WareSkuEntity wareSku = wareSkuService.getById(id);
 
@@ -54,7 +56,7 @@ public class WareSkuController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public R save(@RequestBody WareSkuEntity wareSku){
 		wareSkuService.save(wareSku);
 
@@ -64,7 +66,7 @@ public class WareSkuController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PostMapping("/update")
     public R update(@RequestBody WareSkuEntity wareSku){
 		wareSkuService.updateById(wareSku);
 
@@ -74,8 +76,7 @@ public class WareSkuController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    //@RequiresPermissions("warehouse:waresku:delete")
+    @PostMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		wareSkuService.removeByIds(Arrays.asList(ids));
 

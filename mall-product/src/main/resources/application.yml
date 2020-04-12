@@ -9,6 +9,10 @@ spring:
       server-addr: 192.168.147.132:8848
   application:
     name: mall-product
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   # 配置主键自增
@@ -25,3 +29,5 @@ server:
 logging:
   level:
     com.buguagaoshu.mall: debug
+
+

@@ -4,11 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.buguagaoshu.mall.warehouse.entity.PurchaseDetailEntity;
 import com.buguagaoshu.mall.warehouse.service.PurchaseDetailService;
@@ -18,22 +14,27 @@ import com.buguagaoshu.common.utils.R;
 
 
 /**
- * 
+ * 采购需求管理
  *
  * @author Pu Zhiwei
  * @email puzhiweipuzhiwei@foxmail.com
  * @date 2020-04-06 20:03:29
  */
 @RestController
-@RequestMapping("warehouse/purchasedetail")
+@RequestMapping("ware/purchasedetail")
 public class PurchaseDetailController {
+
+    private final PurchaseDetailService purchaseDetailService;
+
     @Autowired
-    private PurchaseDetailService purchaseDetailService;
+    public PurchaseDetailController(PurchaseDetailService purchaseDetailService) {
+        this.purchaseDetailService = purchaseDetailService;
+    }
 
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = purchaseDetailService.queryPage(params);
 
@@ -44,7 +45,7 @@ public class PurchaseDetailController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
 		PurchaseDetailEntity purchaseDetail = purchaseDetailService.getById(id);
 
@@ -54,7 +55,7 @@ public class PurchaseDetailController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public R save(@RequestBody PurchaseDetailEntity purchaseDetail){
 		purchaseDetailService.save(purchaseDetail);
 
@@ -64,7 +65,7 @@ public class PurchaseDetailController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PostMapping("/update")
     public R update(@RequestBody PurchaseDetailEntity purchaseDetail){
 		purchaseDetailService.updateById(purchaseDetail);
 
@@ -74,8 +75,7 @@ public class PurchaseDetailController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    //@RequiresPermissions("warehouse:purchasedetail:delete")
+    @PostMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		purchaseDetailService.removeByIds(Arrays.asList(ids));
 

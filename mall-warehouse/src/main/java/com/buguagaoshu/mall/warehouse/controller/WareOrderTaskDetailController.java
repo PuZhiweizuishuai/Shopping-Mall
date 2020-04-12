@@ -25,7 +25,7 @@ import com.buguagaoshu.common.utils.R;
  * @date 2020-04-06 20:03:29
  */
 @RestController
-@RequestMapping("warehouse/wareordertaskdetail")
+@RequestMapping("ware/wareordertaskdetail")
 public class WareOrderTaskDetailController {
     @Autowired
     private WareOrderTaskDetailService wareOrderTaskDetailService;

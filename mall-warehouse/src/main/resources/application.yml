@@ -7,8 +7,9 @@ spring:
   cloud:
     nacos:
       server-addr: 192.168.147.132:8848
-  application:
-    name: mall-warehouse
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml

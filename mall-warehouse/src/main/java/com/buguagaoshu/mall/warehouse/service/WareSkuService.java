@@ -16,5 +16,13 @@ import java.util.Map;
 public interface WareSkuService extends IService<WareSkuEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    /**
+     * 为商品添加库存
+     * @param skuId 当前商品的 ID
+     * @param wareId 仓库的 ID
+     * @param skuNum 入库的数量
+     * */
+    void addStock(Long skuId, Long wareId, Integer skuNum);
 }
 

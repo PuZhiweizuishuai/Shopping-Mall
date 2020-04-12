@@ -16,5 +16,12 @@ import java.util.Map;
 public interface SkuInfoService extends IService<SkuInfoEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    /**
+     * 进行条件查询
+     * @param params  查询条件
+     * @return 分页后的结果
+     * */
+    PageUtils queryPageByCondition(Map<String, Object> params);
 }
 

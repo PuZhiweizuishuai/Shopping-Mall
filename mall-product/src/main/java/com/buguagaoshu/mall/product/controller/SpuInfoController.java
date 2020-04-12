@@ -5,11 +5,7 @@ import java.util.Map;
 
 import com.buguagaoshu.mall.product.vo.SpuSaveVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.buguagaoshu.mall.product.entity.SpuInfoEntity;
 import com.buguagaoshu.mall.product.service.SpuInfoService;
@@ -28,15 +24,20 @@ import com.buguagaoshu.common.utils.R;
 @RestController
 @RequestMapping("product/spuinfo")
 public class SpuInfoController {
+
+    private final SpuInfoService spuInfoService;
+
     @Autowired
-    private SpuInfoService spuInfoService;
+    public SpuInfoController(SpuInfoService spuInfoService) {
+        this.spuInfoService = spuInfoService;
+    }
 
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = spuInfoService.queryPage(params);
+        PageUtils page = spuInfoService.queryPageByCondition(params);
 
         return R.ok().put("page", page);
     }
