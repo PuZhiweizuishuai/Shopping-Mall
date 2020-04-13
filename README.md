@@ -6,13 +6,38 @@
 
 正在开发中，未完成
 
+## 运行环境
+
+Java：11
+
+
+## 快速运行
+
+- 1.下载运行 [nacos](https://nacos.io/en-us/)
+
+- 2.下载安装 [MinIO](https://min.io/)，或直接docker运行
+
+```
+sudo docker run -p 9000:9000 --name minio \
+  -e "MINIO_ACCESS_KEY=<账号>" \
+  -e "MINIO_SECRET_KEY=<密码>" \
+  -v /home/user/MinIO/data:/data \
+  -v /home/user/MinIO/config:/root/.minio \
+  minio/minio server /data
+```
+
+- 3.修改配置文件中的nacos服务器地址，数据库地址，minio地址
+
+- 4.启动各个模块
+
+
 ## 注意事项
 
 系统使用了 [renren-fast-vue](https://github.com/renrenio/renren-fast-vue) 作为前端管理页面，我在构建时碰到了几个坑，如果你也碰到了
 那么具体解决方案如下：
 
 1.使用`npm install`时，卡在 chromedriver，无法下载，导致`install`失败
-  
+
 解决方案：进入 \node_modules\chromedriver 目录下，修改 install.js
 
 将第十六行的谷歌下载地址更换为 https://npm.taobao.org/mirrors/chromedriver 淘宝地址
